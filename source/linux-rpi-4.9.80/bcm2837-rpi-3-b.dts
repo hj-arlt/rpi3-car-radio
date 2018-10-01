@@ -1,0 +1,641 @@
+/dts-v1/;
+
+/*  GPIO Alt 0=in, 1=out, 2=a5, 3=a4, 4=a0, 5=a1, 6=a2, 7=a3 
+ *  Configuration:
+ *  I2C1, SD1 (eMMC 4bit), SPI0, SPI1, UART1
+ *
+ */
+
+#include "bcm2710.dtsi"
+#include "bcm283x-rpi-smsc9514.dtsi"
+#include <dt-bindings/clock/bcm2835.h>
+
+
+//#define VC4_KMS
+//#define VC4_FKMS
+#define AUDIO
+#define LIRC_USED
+#define SPI0_USED
+#define SPI_DEVICE_0_0
+// #define EEPROM_DEVICE
+
+#define TOUCH_FT5406
+// #define SPI_DEVICE_0_1  CAN
+// #define SPI1_USED
+// #define SPI_DEVICE_1_0
+// #define SPI_DEVICE_1_1
+
+#ifdef AUDIO
+// #define AUDIO_CODEC
+  #define AK4558_CODEC
+#else
+  #define PWM_SELECT
+#endif
+#ifndef LIRC_USED
+  #define GPIO_IR_USED
+#endif
+
+/ {
+	compatible = "brcm,bcm2837", "brcm,bcm2836", "brcm,bcm2708", "brcm,bcm2709";
+	model = "Raspberry Pi 3 Model B";
+};
+
+&gpio {
+	sdhost_pins: sdhost_pins {   /* not on Header */
+		brcm,pins = <48 49 50 51 52 53>;
+		brcm,function = <4>; /* alt0 */
+	};
+
+	spi0_pins: spi0_pins {
+        /*               MISO MOSI SCLK */
+		brcm,pins = <9 10 11>;
+		brcm,function = <4>; /* alt0 */
+	};
+
+	spi0_cs_pins: spi0_cs_pins {
+        /*                 CE0 CE1 */
+		brcm,pins = <8 7>;
+		brcm,function = <1 1>; /* output */
+	};
+
+#ifdef SPI1_USED
+        spi1_pins: spi1_pins {
+        /*               MISO MOSI SCLK */
+                brcm,pins = <19 20 21>;
+                brcm,function = <3>; /* alt4 */
+        };
+
+        spi1_cs_pins: spi1_cs_pins {
+        /*                 CE0 CE1 CE2 */
+                brcm,pins = <18 17>;
+                brcm,function = <1 1>; /* output */
+        };
+#endif
+        spi0_0_int_pins: spi0_0_int_pins {
+        /*                 GPIO5 */
+                brcm,pins = <5>;
+                brcm,function = <0>; /* input */
+        };
+        spi0_1_int_pins: spi0_1_int_pins {
+        /*                 GPIO6 */
+                brcm,pins = <6>;
+                brcm,function = <0>; /* input */
+        };
+
+#ifdef SPI1_USED
+        spi1_0_int_pins: spi1_0_int_pins {
+        /*                 GPIO13/PWM1 */
+                brcm,pins = <13>;
+                brcm,function = <0>; /* input */
+        };
+        
+        spi1_1_int_pins: spi1_1_int_pins {
+        /*                 GPIO16/SPI_CE2 */
+                brcm,pins = <12>;
+                brcm,function = <0>; /* input */
+        };
+#endif
+        
+	i2c0_pins: i2c0 {
+        /* EEPROM         SDA0 SCL0 */
+		brcm,pins = <0 1>;
+		brcm,function = <4>; /* alt0 */
+	};
+
+	i2c1_pins: i2c1 {
+        /* RTC           SDA1 SCL1 */
+		brcm,pins = <2 3>;
+		brcm,function = <4>; /* alt0 */
+	};
+
+	i2s_pins: i2s {
+	/* PCM             CLK FS DIN DOUT */
+		brcm,pins = <18 19 20 21>;
+		brcm,function = <4>; /* alt0 */
+	};
+	
+#ifdef SDIO2
+    /* eMMC/SD1 extern */
+	sdio_pins: sdio_pins {
+        /* SD1              clk cmd c0 d1 d2 d3 */
+                brcm,pins = <22 23 24 25 26 27>;
+                brcm,function = <7 7 7 7 7 7>; /* ALT3 = SD1 */
+                brcm,pull = <0 2 2 2 2 2>;
+	};
+#else
+    /* Wlan intern */
+	sdio_pins: sdio_pins {
+		brcm,pins =     <34 35 36 37 38 39>;
+		brcm,function = <7>; // alt3 = SD1
+		brcm,pull =     <0 2 2 2 2 2>;
+	};
+
+#endif
+
+	bt_pins: bt_pins {
+	/* BT               clk */
+		brcm,pins = <43>;
+		brcm,function = <4>; /* alt0=GPCLK2 */
+		brcm,pull = <0>;
+	};
+
+	uart0_pins: uart0_pins {
+        /*                 TxD RxD */
+		brcm,pins = <32 33>;
+		brcm,function = <7>; /* alt3=UART0 */
+		brcm,pull = <0 2>;
+	};
+
+	uart1_pins: uart1_pins {
+	/*             TxD RxD */
+		brcm,pins = <14 15>;
+		brcm,function = <2>; /* alt5=UART1 */
+		brcm,pull = <0 2>;
+	};
+
+	audio_pins: audio_pins {
+		brcm,pins = <40 41>;
+		brcm,function = <4>;
+	};
+
+#ifdef LIRC_USED	
+	lirc_pins: lirc_pins {
+		brcm,pins = <17>;
+		brcm,function = <0>; // in
+		brcm,pull = <2>;     // up, 1 down
+	};
+#endif
+
+#ifdef PWM_SELECT
+/*
+    Legal pin,function combinations for each channel:
+      PWM0: 12,4(Alt0) 18,2(Alt5) 40,4(Alt0)            52,5(Alt1)
+      PWM1: 13,4(Alt0) 19,2(Alt5) 41,4(Alt0) 45,4(Alt0) 53,5(Alt1)
+    
+    N.B.:
+      1) Pin 18 is the only one available on all platforms, and
+         it is the one used by the I2S audio interface.
+         Pins 12 and 13 might be better choices on an A+, B+ or Pi2.
+      2) The onboard analogue audio output uses both PWM channels.
+      3) So be careful mixing audio and PWM.
+*/
+    pwm_pins: pwm_pins {
+        /* PWM        0 */
+        brcm,pins = < 12 >;
+        brcm,function = < 4 >; /* alt0 */
+        /*            0  1 */
+//      brcm,pins = < 12 13 >;
+//      brcm,function = < 4 4 >; /* alt0 alt0 */
+//      brcm,pins = <18 19>;
+//      brcm,function = < 2 2 >; /* Alt5 */
+    };
+#else
+    /* GPIO12 KL15, GPIO13 MUTE */
+    io_pins: io_pins {
+        brcm,pins = <12 13>;
+        brcm,function = <1 1>; /* output */
+    };
+#endif
+
+};
+
+/* SD0 card slot */
+&sdhost {
+	pinctrl-names = "default";
+	pinctrl-0 = <&sdhost_pins>;
+	bus-width = <4>;
+//  brcm,overclock-50 = <0>;
+//  brcm,pio-limit = <1>;
+	status = "okay";
+};
+
+/* SD1 -> eMMC, wlan */
+&mmc {
+	pinctrl-names = "default";
+	pinctrl-0 = <&sdio_pins>;
+	non-removable;
+	bus-width = <4>;
+    status = "okay";
+	brcm,overclock-50 = <0>;
+};
+
+&soc {
+	virtgpio: virtgpio {
+		compatible = "brcm,bcm2835-virtgpio";
+		gpio-controller;
+		#gpio-cells = <2>;
+		firmware = <&firmware>;
+		status = "okay";
+	};
+	
+	expgpio: expgpio {
+		compatible = "brcm,bcm2835-expgpio";
+		gpio-controller;
+		#gpio-cells = <2>;
+		firmware = <&firmware>;
+		status = "okay";
+	};
+};
+
+/* Bluetooth Uart */
+&uart0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart0_pins &bt_pins>;
+	status = "okay";
+};
+
+/* Trace Uart */
+&uart1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart1_pins>;
+	status = "okay";
+};
+
+#ifdef PWM_SELECT
+/* PWM */
+&pwm {
+        pinctrl-names = "default";
+        pinctrl-0 = <&pwm_pins>;
+        status = "okay";
+};
+
+&clk_pwm {
+	clock-frequency = <100000000>;
+};
+#endif
+
+    /* the clock/oscillator of the can-controller */
+&clocks {
+    /* external oscillator of mcp2515 on SPI0.0 */
+    can0_osc: can0_osc {
+        compatible = "fixed-clock";
+        #clock-cells = <0>;
+        clock-frequency  = <16000000>;
+    };
+};
+
+/* Tuner 0, CAN 1 */
+&spi0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&spi0_pins &spi0_cs_pins>;
+	cs-gpios = <&gpio 8 1>, <&gpio 7 1>;   /* CS out */
+    status = "okay";
+
+	spidev0_0: spidev@0{
+                reg = <0>;      /* CE0 */
+                #address-cells = <1>;
+                #size-cells = <0>;
+                spi-max-frequency = <10000000>;
+#ifdef SPI_DEVICE_0_0
+                compatible = "spidev";
+#else
+                compatible = "microchip,mcp2515";
+                clocks = <&can0_osc>;  // mode 0
+#endif
+                pinctrl-names = "default";
+                pinctrl-0 = <&spi0_0_int_pins>;
+                interrupt-parent = <&gpio>;
+                interrupts = <5 0x2>;
+                status = "okay";
+	};
+
+	spidev0_1: spidev@1{
+                reg = <1>;      /* CE1 */
+                #address-cells = <1>;
+                #size-cells = <0>;
+                spi-max-frequency = <10000000>;
+#ifdef SPI_DEVICE_0_1
+                compatible = "spidev";
+#else
+                compatible = "microchip,mcp2515";
+                clocks = <&can0_osc>;
+#endif
+                pinctrl-names = "default";
+                pinctrl-0 = <&spi0_1_int_pins>;
+                interrupt-parent = <&gpio>;
+                interrupts = <6 0x2>;
+                status = "okay";
+	};
+};
+
+/* CAN 2,3, free */
+#ifdef SPI1_USED
+&spi1 {
+        pinctrl-names = "default";
+        pinctrl-0 = <&spi1_pins &spi1_cs_pins>;
+        cs-gpios = <&gpio 18 1>, <&gpio 17 1>;   /* CS out */
+        status = "okay";
+
+        spidev1_0: spidev@0{
+                reg = <0>;      /* CE0 */
+#ifdef SPI_DEVICE_1_0
+                compatible = "spidev";
+                #address-cells = <1>;
+                #size-cells = <0>;
+                spi-max-frequency = <1000000>;
+#else
+                compatible = "microchip,mcp2515";
+                spi-max-frequency = <10000000>;
+                clocks = <&can0_osc>;
+#endif
+                pinctrl-names = "default";
+                pinctrl-0 = <&spi1_0_int_pins>;
+                interrupt-parent = <&gpio>;
+                interrupts = <13 0x2>;
+                status = "okay";
+        };
+
+        spidev1_1: spidev@1{
+                reg = <1>;      /* CE1 */
+                #address-cells = <1>;
+                #size-cells = <0>;
+#ifdef SPI_DEVICE_1_1
+                compatible = "spidev";
+                spi-max-frequency = <1000000>;
+#else
+                compatible = "microchip,mcp2515";
+                spi-max-frequency = <10000000>;
+                clocks = <&can0_osc>;
+#endif                
+                pinctrl-names = "default";
+                pinctrl-0 = <&spi1_1_int_pins>;
+                interrupt-parent = <&gpio>;
+                interrupts = <12 0x2>;    // with PWM0
+                status = "okay";
+        };
+};
+#endif /* SPI1_USED */
+
+&i2c0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c0_pins>;
+	clock-frequency = <100000>;
+    status = "okay";
+};
+
+/* RTC, EEPROM */
+&i2c1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c1_pins>;
+	clock-frequency = <100000>;
+    status = "okay";
+
+    /* AK4558 */
+#ifdef AK4558_CODEC
+    ak4558: ak4558@11 {
+            #sound-dai-cells = <0>;
+            compatible = "asahi-kasei,ak4558";
+            reg = <0x11>;
+            /* Mute amp */
+            mute-gpios = <&gpio 13 GPIO_ACTIVE_HIGH>;
+            status = "okay";
+    };
+#endif
+    /* RTC 3V3 */
+    pcf8563_1: pcf8563_1@51 {
+            compatible = "nxp,pcf8563";
+            reg = <0x51>;
+            status = "okay";
+    };
+    /* AT24C64 */
+#ifdef EEPROM_DEVICE
+    eeprom_1: eeprom_1@54 {
+            compatible = "at24,24c64";
+            reg = <0x54>;
+            pagesize = <32>;
+    };
+#endif
+};
+
+&leds {
+        act_led: act {
+                label = "led0";
+                linux,default-trigger = "mmc0";
+                gpios = <&virtgpio 0 0>;
+        };
+        
+	    pwr_led: pwr {
+		    label = "led1";
+		    linux,default-trigger = "input";
+		    gpios = <&expgpio 7 0>;
+	    };
+};
+
+&hdmi {
+	hpd-gpios = <&expgpio 4 GPIO_ACTIVE_LOW>;
+};
+
+&random {
+        status = "okay";
+};
+
+#ifdef AUDIO
+/* PCM audio */
+&i2s {
+    	#sound-dai-cells = <0>;
+    	pinctrl-names = "default";
+    	pinctrl-0 = <&i2s_pins>;
+        status = "okay";
+};
+
+&sound {
+        compatible = "rpi,rpi-ak4558";
+        i2s-controller = <&i2s>;
+        status = "okay";
+};
+#endif
+
+/ {
+	chosen {
+		bootargs = "8250.nr_uarts=1";
+	};
+};
+
+/ {
+#ifdef AUDIO_CODEC
+        ak4558-codec {
+            #sound-dai-cells = <0>;
+            compatible = "asahi-kasei,ak4558";
+            /* Mute amp */
+            mute-gpios = <&gpio 13 GPIO_ACTIVE_HIGH>;
+            status = "okay";
+        };
+#endif
+#ifdef TOUCH_FT5406
+        rpi_ft5406: rpi_ft5406 {
+            compatible = "rpi,rpi-ft5406";
+            firmware = <&firmware>;
+            status = "okay";
+        };
+#endif
+#ifdef LIRC_USED	
+        lirc_rpi: lirc_rpi {
+        	compatible = "rpi,lirc-rpi";
+        	pinctrl-names = "default";
+        	pinctrl-0 = <&lirc_pins>;
+        	status = "okay";
+        
+        	// Override autodetection of IR receiver circuit
+        	// (0 = active high, 1 = active low, -1 = no override )
+        	rpi,sense = <0xffffffff>;
+        
+        	// Software carrier
+        	// (0 = off, 1 = on)
+        	rpi,softcarrier = <1>;
+        
+        	// Invert output
+        	// (0 = off, 1 = on)
+        	rpi,invert = <0>;
+        
+        	// Enable debugging messages
+        	// (0 = off, 1 = on)
+        	rpi,debug = <0>;
+        };
+#endif
+#ifdef GPIO_IR_USED
+        gpio_ir: ir-receiver {
+            compatible = "gpio-ir-receiver";
+
+            // pin number, high or low
+            gpios = <&gpio 17 1>;
+
+            // parameter for keymap name
+            linux,rc-map-name = "rc-rc6-mce";
+            status = "okay";
+        };
+#endif
+};
+
+/* ---- VC4 display ---- */
+
+&i2c_dsi {
+	gpios = <&gpio 44 0 
+	         &gpio 45 0>;
+#ifdef VC4_KMS
+    status = "okay";
+#endif
+};
+
+&i2c2 {
+	clock-frequency = <100000>;
+#ifdef VC4_KMS
+    status = "okay";
+#endif
+};
+
+#ifdef VC4_FKMS  /* ---- FKMS ---- */
+/ {
+	chosen {
+		bootargs = "cma=128M";
+	    cma-128 = <0>,"-0-1+2-3-4";
+	};
+	soc {
+	     dma {
+			brcm,dma-channel-mask = <0x7f35>;
+	     };
+	};
+};
+
+&fb {
+    status = "disabled";
+};
+
+&firmwarekms {
+    status = "okay";
+};
+
+&v3d {
+    interrupts = <1 10>;
+    status = "okay";
+};
+
+&vc4 {
+    status = "okay";
+};
+
+#else
+#ifdef VC4_KMS  /* ---- KMS ---- */
+/ {
+	chosen {
+	    bootargs = "cma=128M";
+	    cma-128 = <0>,"-0-1+2-3-4";
+	};	
+	soc {
+	       dma {
+			     brcm,dma-channel-mask = <0x7f35>;
+		   };
+	};
+};
+
+&fb {
+		status = "disabled";
+};
+
+&pixelvalve0 {
+		interrupts = <2 13>; /* pwa0 */
+		status = "okay";
+};
+
+&pixelvalve1 {
+		interrupts = <2 14>; /* pwa1 */
+		status = "okay";
+};
+
+&pixelvalve2 {
+		interrupts = <2 10>; /* pixelvalve */
+		status = "okay";
+};
+
+&hvs {
+		interrupts = <2 1>;
+		status = "okay";
+};
+
+&hdmi {
+		interrupts = <2 8>, <2 9>;
+		status = "okay";
+};
+
+&v3d {
+		interrupts = <1 10>;
+		status = "okay";
+};
+
+&vc4 {
+		status = "okay";
+};
+
+&dsi1 {
+		#address-cells = <1>;
+		#size-cells = <0>;
+		status = "okay";
+
+		pitouchscreen: panel@0 {
+			compatible = "raspberrypi,touchscreen";
+			reg = <0>;
+			raspberrypi,touchscreen-bridge = <&pitouchscreen_bridge>;
+		};
+};
+
+&vec {
+		status = "okay";
+};
+
+&clocks {
+		claim-clocks = <
+			BCM2835_PLLD_DSI0
+			BCM2835_PLLD_DSI1
+			BCM2835_PLLH_AUX
+			BCM2835_PLLH_PIX
+		>;
+};
+
+#else /* VC4_KMS */
+
+&fb {
+	status = "okay";
+};
+
+#endif
+#endif
+

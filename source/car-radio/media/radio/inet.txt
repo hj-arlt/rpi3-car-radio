@@ -1,0 +1,26 @@
+INET,132f,ENERGY ,logo-energy.jpg,http://energyradio.de/sachsen
+INET,15DD,RADIO BOB!,logo-radio-bob.png,http://streams.radiobob.de/bob-live/mp3-192/mediaplayer
+INET,D531,Antenne MV,logo-antenne-mv.png,http://streams.antennemv.de/antennemv-live/mp3-192/amv
+INET,D313,BAYERN 3,logo-bayern-3.png,http://br-br3-live.cast.addradio.de/br/br3/live/mp3/128/stream.mp3
+INET,D382,NDR 2  ,logo-ndr-2.png,http://ndr-ndr2-niedersachsen.cast.addradio.de/ndr/ndr2/niedersachsen/mp3/128/stream.mp3
+INET,D3A9,big FM  ,logo-big-fm.png,http://217.151.152.245:80/bigfm-mp3-96
+INET,D388,ffn   ,logo-radio-ffn.png,http://player.ffn.de/ffn.mp3
+INET,DF06,HIT FFH,logo-radio-ffh.png,http://mp3.ffh.de/ffhchannels/hqvoting.mp3
+INET,D4C1,MDR SACHSEN DD,logo-mdr-sachsen.jpg,http://mdr-284321-2.cast.mdr.de/mdr/284321/2/mp3/high/stream.mp3
+INET,D5F1,MDR THUERINGEN,logo-mdr-thueringen.jpg,http://mdr-990100-0.cast.mdr.de/mdr/990100/0/mp3/high/stream.mp3
+INET,D5D1,MDR S-ANHALT,logo-mdr-sachsen-anhalt.jpg,http://mdr-990801-0.cast.mdr.de/mdr/990801/0/mp3/high/stream.mp3
+INET,DE1F,RSA     ,logo-rsa.png,http://streams.rsa-sachsen.de/rsa-live/mp3-192/mediaplayerrsa
+INET,10F4,R-S-R  ,logo-radiopsr.png,http://regiocast.hoerradar.de/psr-live-mp3-hq?sABC=5n490838%230%23sq11796p48pp4s47689s54n78o02r9on%23yvfgrayvir&amsparams=playerid:listenlive;skey:1514735672
+INET,D409,sunshine,logo-sunshine-live.png,http://sunshinelive.hoerradar.de/sunshinelive-live-mp3-hq
+INET,DF0A,Schlagerparadies,logo-schlagerparadies.png,http://surfmusik.schlagerparadies.de/schlagerparadies128.mp3
+INET,1234,Groove Salad,logo-groovesalad.jpg,http://ice1.somafm.com/groovesalad-256-mp3
+INET,1235,Seven Soul,logo-sevensoul.jpg,http://ice1.somafm.com/7soul-128-mp3
+INET,1236,SomaFM 70s,logo-sofafm-seventies.jpg,http://ice1.somafm.com/seventies-320-mp3
+INET,1237,SomaFM u80s,logo-sofafm-u80s.png,http://ice1.somafm.com/u80s-256-mp3
+INET,1238,SomaFM indie,logo-sofafm-indiepop.png,http://ice1.somafm.com/indiepop-128-mp3
+INET,1239,SomaFM suburb,logo-sofafm-suburb.jpg,http://ice1.somafm.com/suburbsofgoa-128-mp3
+INET,123A,SomaFM Lush,logo-sofafm-lush.jpg,http://ice1.somafm.com/lush-128-mp3
+INET,123B,SomaFM Mission Control,logo-somafm-mission.png,http://ice1.somafm.com/missioncontrol-128-mp3
+INET,123C,SomaFM Space Station,logo-somafm-space.png,http://ice1.somafm.com/spacestation-128-mp3
+INET,123D,Bachata Dominicana,logo-bachata-dominicana.jpg,http://listen.radionomy.com/bachata-dominicana
+INET,123E,Bachata24k,logo-radio-bachata.png,http://198.50.158.92:9404/stream
