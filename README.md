@@ -1,6 +1,6 @@
 CAR Radio project
 
-Build a car radio, based on raspberry 3x and a developed extention board.
+Build a car radio, based on raspberry 3x and a interface board.
 The hardware includes a complete vehicle-friendly application.
 The construction fits into a 2" car radio device tray.
 
