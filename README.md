@@ -7,5 +7,7 @@ The construction fits into a 2" car radio device tray.
 The application software based on:
 - Raspbian stretch Desktop -> https://www.raspberrypi.org/downloads/raspbian/
 - kernel rpi-4.9.x -> https://github.com/raspberrypi/linux/tree/rpi-4.9.y
-- QT5.9.1.                 -> https://doc.qt.io/qt-5.9/index.html
+- QT5.11.1.                -> https://doc.qt.io/qt-5.11/index.html
+
+since Qt5.11 and higher, we can support OSM maps for navigation
 

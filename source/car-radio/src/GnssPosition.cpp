@@ -86,7 +86,9 @@ void GnssPosition::positionUpdated(const QGeoPositionInfo &info)
 //  qDebug() << "Position Sat updated:" << info;
     emit newPosition(info.coordinate().latitude()
                    , info.coordinate().longitude()
-                   , info.coordinate().altitude());
+                   , info.coordinate().altitude()
+                   , info.attribute(QGeoPositionInfo::Direction)
+                   , info.attribute(QGeoPositionInfo::GroundSpeed));
 }
 
 void GnssPosition::satellitesInViewUpdated(const QList<QGeoSatelliteInfo> &infos)

@@ -320,7 +320,7 @@ int i2cReadRegisters(void)
 
     radio.chipid = reg[0];
 
-    qDebug() << "SI4703: id " << hex << radio.chipid;
+    //qDebug() << "SI4703: id " << hex << radio.chipid;
     for (i=0; i<16; i++) {
         //qDebug() << "SI4703: reg " << i << " val " << hex << reg[i];
     }

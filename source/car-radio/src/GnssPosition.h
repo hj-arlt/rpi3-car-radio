@@ -27,7 +27,7 @@ public:
 
 signals:
 
-    void newPosition(double lat, double lon, double alt);
+    void newPosition(double lat, double lon, double alt, double dir, double speed);
     void entryCountChanged();
 
 private:
