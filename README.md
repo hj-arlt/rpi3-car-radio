@@ -13,6 +13,9 @@ since Qt5.11 and higher, we can support OSM maps for navigation
 
 Interface board
 ------------------------
-![board](https://github.com/hj-arlt/rpi3-car-radio/tree/master/pictures/IMG_20171130_184029.jpg)
+![board](https://github.com/hj-arlt/rpi3-car-radio/tree/master/pictures/IMG_20171130_184029.png)
 
-![assembly](https://github.com/hj-arlt/rpi3-car-radio/tree/master/pictures/ 	IMG_20171130_183857.jpg)
+![assembly](https://github.com/hj-arlt/rpi3-car-radio/tree/master/pictures/IMG_20171130_183857.png)
+
+![assembly](https://github.com/hj-arlt/rpi3-car-radio/tree/master/pictures/IMG_20171130_183708.png)
+
