@@ -15,7 +15,7 @@ Interface board
 ---------------
 ![board1](https://github.com/hj-arlt/rpi3-car-radio/blob/master/IMG_20171130_184029.png)
 
-![board2](https://github.com/hj-arlt/rpi3-car-radio/blob/master/IMG_20171130_183857.png)
+![board2](https://github.com/hj-arlt/rpi3-car-radio/blob/master/IMG_20171130_183708.png)
 
-![board3](https://github.com/hj-arlt/rpi3-car-radio/blob/master/IMG_20171130_183708.png)
+![board3](https://github.com/hj-arlt/rpi3-car-radio/blob/master/IMG_20171130_184148.png)
 
