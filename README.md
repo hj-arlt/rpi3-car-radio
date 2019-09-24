@@ -19,3 +19,7 @@ Interface board
 
 ![board3](https://github.com/hj-arlt/rpi3-car-radio/blob/master/IMG_20171130_184148.png)
 
+GUI Car Radio
+---------------
+![board3](https://github.com/hj-arlt/rpi3-car-radio/blob/master/car-radio_radio.png)
+![board3](https://github.com/hj-arlt/rpi3-car-radio/blob/master/car-radio_nav.png)
